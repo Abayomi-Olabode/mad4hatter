@@ -35,6 +35,7 @@ include { POSTPROC_ONLY } from './workflows/postproc_only.nf'
 
 // modules
 include { BUILD_ALLELETABLE } from './modules/local/build_alleletable.nf'
+include { CALCULATE_FREQUENCIES } from './modules/local/calculate_frequencies.nf'
 
 def helpMessage() {
   log.info """
@@ -172,6 +173,10 @@ workflow {
         DENOISE_AMPLICONS_2.out.reference_ch
       )
     }
+    // Add frequency calculation at the end
+    CALCULATE_FREQUENCIES(
+        BUILD_ALLELETABLE.out.alleledata
+    )
   }
 }
 
